@@ -14,7 +14,7 @@ class RemoteFeeLoaderTests: XCTest {
         
         let (_, client) = makeSUT()
                          
-        XCTAssertNil(client.requestedURL)
+        XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func testLoad_requestsDataFromURL() {
@@ -24,7 +24,7 @@ class RemoteFeeLoaderTests: XCTest {
         
         sut.load()
         
-        XCTAssertEqual(client.requestedURL, url)
+        XCTAssertEqual(client.requestedURLs, [url])
         
     }
     
@@ -52,11 +52,9 @@ class RemoteFeeLoaderTests: XCTest {
     
     class HTTPClientSpy: HTTPClient {
         
-        var requestedURL: URL?
         var requestedURLs = [URL]()
         
         func get(from url: URL) {
-            requestedURL = url
             requestedURLs.append(url)
         }
     }
