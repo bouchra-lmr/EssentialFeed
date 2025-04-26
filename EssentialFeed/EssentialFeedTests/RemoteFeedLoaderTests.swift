@@ -47,7 +47,7 @@ class RemoteFeeLoaderTests: XCTestCase {
 
         expect(
             sut: sut,
-            toCompleteWithError: .connectivity,
+            toCompleteWith: .failure(.connectivity),
             when: {
                 client.complete(with: clientError)
             }
@@ -64,7 +64,7 @@ class RemoteFeeLoaderTests: XCTestCase {
             
             expect(
                 sut: sut,
-                toCompleteWithError: .invalidData,
+                toCompleteWith: .failure(.invalidData),
                 when: {
                     client.complete(withStatusCode: code, at: index)
                 }
@@ -78,9 +78,9 @@ class RemoteFeeLoaderTests: XCTestCase {
         
         expect(
             sut: sut,
-            toCompleteWithError: .invalidData,
+            toCompleteWith: .failure(.invalidData),
             when: {
-                let invalidJSON = Data(bytes: "Invalid JSON".utf8)
+                let invalidJSON = Data("Invalid JSON".utf8)
                 
                 client.complete(withStatusCode: 200, data: invalidJSON )
             }
@@ -91,15 +91,14 @@ class RemoteFeeLoaderTests: XCTestCase {
         
         let (sut, client) = makeSUT()
         
-        var capturedResults = [RemoteFeedLoader.Result]()
-        
-        sut.load{ capturedResults.append($0) }
-        
-        let emptyListJSON = Data(bytes: "{\"items\": []}".utf8)
-        
-        client.complete(withStatusCode: 200, data: emptyListJSON)
-        
-        XCTAssertEqual(capturedResults, [.success([])])
+        expect(
+            sut: sut,
+            toCompleteWith: .success([]),
+            when: {
+                let emptyListJSON = Data(bytes: "{\"items\": []}".utf8)
+                client.complete(withStatusCode: 200, data: emptyListJSON)
+            }
+        )
     }
         
     // MARK: - Helpers
@@ -114,7 +113,7 @@ class RemoteFeeLoaderTests: XCTestCase {
     
     private func expect(
         sut: RemoteFeedLoader,
-        toCompleteWithError error: RemoteFeedLoader.Error,
+        toCompleteWith result: RemoteFeedLoader.Result,
         when action: () -> Void,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -127,7 +126,7 @@ class RemoteFeeLoaderTests: XCTestCase {
         
         XCTAssertEqual(
             capturedResults,
-            [.failure(error)],
+            [result],
             file: file,
             line: line
         )
