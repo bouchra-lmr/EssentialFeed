@@ -95,10 +95,59 @@ class RemoteFeeLoaderTests: XCTestCase {
             sut: sut,
             toCompleteWith: .success([]),
             when: {
-                let emptyListJSON = Data(bytes: "{\"items\": []}".utf8)
+                let emptyListJSON = Data( "{\"items\": []}".utf8)
                 client.complete(withStatusCode: 200, data: emptyListJSON)
             }
         )
+    }
+    
+    func test_load_deliversItemsOn200HTTPReponseWithValidJSON() {
+        
+        let (sut, client) = makeSUT()
+        
+        let item1 = FeedItem(
+            id: UUID(),
+            description: nil,
+            location: nil,
+            imageURL: URL(string: "http://a-url.com")!
+        )
+        
+        let item1JSON = [
+            "id": item1.id.uuidString,
+            "image": item1.imageURL.absoluteString
+        ]
+        
+        let item2 = FeedItem(
+            id: UUID(),
+            description: "a description",
+            location: "a location",
+            imageURL: URL(string: "http://another-url.com")!
+        )
+        
+        let item2JSON = [
+            "id": item2.id.uuidString,
+            "description": item2.description!,
+            "location": item2.location!,
+            "image": item2.imageURL.absoluteString
+        ]
+        
+        let itemsJSON = [
+            "items": [item1JSON, item2JSON]
+        ]
+        
+        expect(
+            sut: sut,
+            toCompleteWith: .success([item1, item2]),
+            when: {
+                let jsonData = try! JSONSerialization.data(withJSONObject: itemsJSON)
+                
+                client.complete(
+                    withStatusCode: 200,
+                    data: jsonData
+                )
+            }
+        )
+        
     }
         
     // MARK: - Helpers
