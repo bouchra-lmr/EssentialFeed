@@ -66,7 +66,8 @@ class RemoteFeeLoaderTests: XCTestCase {
                 sut: sut,
                 toCompleteWith: .failure(.invalidData),
                 when: {
-                    client.complete(withStatusCode: code, at: index)
+                    let json = makeItemsJSON([])
+                    client.complete(withStatusCode: code, data: json, at: index)
                 }
             )
         }
@@ -123,7 +124,7 @@ class RemoteFeeLoaderTests: XCTestCase {
             sut: sut,
             toCompleteWith: .success(items.map(\.model)),
             when: {
-                let jsonData = makeItemsJSON([item1.json, item2.json])
+                let jsonData = makeItemsJSON([item1.json, item2.json] )
                 
                 client.complete(
                     withStatusCode: 200,
@@ -215,7 +216,7 @@ class RemoteFeeLoaderTests: XCTestCase {
             messages[index].completion(.failure(error))
         }
         
-        func complete(withStatusCode statusCode: Int, data: Data = Data(), at index: Int = 0) {
+        func complete(withStatusCode statusCode: Int, data: Data, at index: Int = 0) {
             
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
