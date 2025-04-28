@@ -96,7 +96,7 @@ class RemoteFeeLoaderTests: XCTestCase {
             sut: sut,
             toCompleteWith: .success([]),
             when: {
-                let emptyListJSON = Data( "{\"items\": []}".utf8)
+                let emptyListJSON = makeItemsJSON([])
                 client.complete(withStatusCode: 200, data: emptyListJSON)
             }
         )
