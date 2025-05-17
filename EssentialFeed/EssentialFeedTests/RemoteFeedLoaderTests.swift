@@ -134,6 +134,23 @@ class RemoteFeeLoaderTests: XCTestCase {
         )
         
     }
+    
+    func test_load_doesNotDeliversResultAfterSUTInstanceHasBeenDeallocated() {
+        
+        let client = HTTPClientSpy()
+        let url = URL(string: "https://a-url.com")!
+        var sut: RemoteFeedLoader? = RemoteFeedLoader(client: client, url: url)
+        
+        var capturedResults = [RemoteFeedLoader.Result]()
+        sut?.load { capturedResults.append($0) }
+        
+        sut = nil
+        
+        client.complete(withStatusCode: 200, data: makeItemsJSON([]))
+        
+        XCTAssertTrue(capturedResults.isEmpty)
+        
+    }
         
     // MARK: - Helpers
     
