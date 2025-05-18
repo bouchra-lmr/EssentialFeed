@@ -47,7 +47,7 @@ class RemoteFeeLoaderTests: XCTestCase {
 
         expect(
             sut: sut,
-            toCompleteWith: .failure(.connectivity),
+            toCompleteWith: .failure(RemoteFeedLoader.Error.connectivity),
             when: {
                 client.complete(with: clientError)
             }
@@ -64,7 +64,7 @@ class RemoteFeeLoaderTests: XCTestCase {
             
             expect(
                 sut: sut,
-                toCompleteWith: .failure(.invalidData),
+                toCompleteWith: .failure(RemoteFeedLoader.Error.invalidData),
                 when: {
                     let json = makeItemsJSON([])
                     client.complete(withStatusCode: code, data: json, at: index)
@@ -79,7 +79,7 @@ class RemoteFeeLoaderTests: XCTestCase {
         
         expect(
             sut: sut,
-            toCompleteWith: .failure(.invalidData),
+            toCompleteWith: .failure(RemoteFeedLoader.Error.invalidData),
             when: {
                 let invalidJSON = Data("Invalid JSON".utf8)
                 
@@ -235,7 +235,7 @@ class RemoteFeeLoaderTests: XCTestCase {
                     line: line
                 )
                 
-            case let (.failure(receivedError), .failure(expectedError)):
+            case let (.failure(receivedError as RemoteFeedLoader.Error), .failure(expectedError as RemoteFeedLoader.Error)):
                 
                 XCTAssertEqual(
                     receivedError,
