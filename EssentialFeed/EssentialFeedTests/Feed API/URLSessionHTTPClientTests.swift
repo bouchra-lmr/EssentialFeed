@@ -2,7 +2,7 @@ import XCTest
 
 import EssentialFeed
 
-class URLSessionHTTPClient {
+class URLSessionHTTPClient: HTTPClient {
     
     private let session: URLSession
     
@@ -13,7 +13,7 @@ class URLSessionHTTPClient {
     struct UnexpectedValuesRepresentation: Error {}
     
     func get(
-        url: URL,
+        from url: URL,
         completion: @escaping (HTTPClientResult) -> Void
     ) {
         session.dataTask(with: url) { data, response, error in
@@ -55,7 +55,7 @@ private final class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
         
-        makeSUT().get(url: url) { _ in }
+        makeSUT().get(from: url) { _ in }
         
         wait(for: [exp], timeout: 1.0)
     }
@@ -109,7 +109,7 @@ private final class URLSessionHTTPClientTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
@@ -150,7 +150,7 @@ private final class URLSessionHTTPClientTests: XCTestCase {
         let expectation = expectation(description: "Wait for completion")
         
         var receivedResult: HTTPClientResult!
-        sut.get(url: anyURL()) { result in
+        sut.get(from: anyURL()) { result in
             switch result {
             case let .success(data, response):
                 receivedResult = .success(data, response)
