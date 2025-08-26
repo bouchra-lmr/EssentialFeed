@@ -44,7 +44,7 @@ class FeedStoreSpy: FeedStore {
         insertionCompletions[index](error)
     }
     
-    func completeInsertionSuccessfully(at index: Int = 0 ) {
+    func completeInsertionSuccessfully(at index: Int = 0) {
         insertionCompletions[index](nil)
     }
     
@@ -55,6 +55,10 @@ class FeedStoreSpy: FeedStore {
     
     func completeRetrieval(with error: Error, at index: Int = 0) {
         retrievalCompletions[index](error)
+    }
+    
+    func completeRetrievalWithEmptyCache(at index: Int = 0) {
+        retrievalCompletions[index](nil)
     }
 
 }
