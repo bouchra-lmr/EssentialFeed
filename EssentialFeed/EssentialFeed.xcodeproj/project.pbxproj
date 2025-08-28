@@ -27,6 +27,7 @@
 		C3A13AED2E5DCAE500D51EEB /* LocalFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A13AEC2E5DCADB00D51EEB /* LocalFeedImage.swift */; };
 		C3A13AEF2E5DCB1100D51EEB /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A13AEE2E5DCB0C00D51EEB /* RemoteFeedItem.swift */; };
 		C3D5035A2DDD23920071ABD4 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D503592DDD23920071ABD4 /* URLSessionHTTPClientTests.swift */; };
+		C3FF61062E6058DF00FE4A41 /* ValidateFeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF61052E6058CA00FE4A41 /* ValidateFeedCacheUseCaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		C3A13AEC2E5DCADB00D51EEB /* LocalFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImage.swift; sourceTree = "<group>"; };
 		C3A13AEE2E5DCB0C00D51EEB /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
 		C3D503592DDD23920071ABD4 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
+		C3FF61052E6058CA00FE4A41 /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 		C3A13AE42E5A763600D51EEB /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				C3FF61052E6058CA00FE4A41 /* ValidateFeedCacheUseCaseTests.swift */,
 				C3563B9E2E5E3419005FC87F /* Helpers */,
 				C3A13AE52E5A769D00D51EEB /* CacheFeedUseCaseTests.swift */,
 				C3563B9C2E5E3261005FC87F /* LoadFeedFromCacheUseCaseTests.swift */,
@@ -373,6 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3FF61062E6058DF00FE4A41 /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				C338539B2D77AFF80098C0A9 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				C3D5035A2DDD23920071ABD4 /* URLSessionHTTPClientTests.swift in Sources */,
 				C3563BA02E5E342F005FC87F /* FeedStoreSpy.swift in Sources */,
