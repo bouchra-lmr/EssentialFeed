@@ -8,6 +8,7 @@
 import Foundation
 
 public class CoreDataFeedStore: FeedStore {
+    
     public init() {}
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
